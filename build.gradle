@@ -1,0 +1,116 @@
+buildscript {
+    repositories {
+        jcenter()
+        maven {
+            url 'https://jitpack.io'
+        }
+
+        maven {
+            url = "https://files.minecraftforge.net/maven"
+        }
+
+        maven {
+            name = 'spongepowered-repo'
+            url = 'https://repo.spongepowered.org/maven/'
+        }
+    }
+
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+        classpath 'org.spongepowered:mixingradle:0.4-SNAPSHOT'
+        classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.3'
+    }
+}
+apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: 'org.spongepowered.mixin'
+apply plugin: 'com.github.johnrengelman.shadow'
+
+
+version = "b1"
+group = "me.dev.thighware"
+archivesBaseName = "catclientplus"
+
+sourceCompatibility = targetCompatibility = '1.8'
+
+compileJava {
+    sourceCompatibility = targetCompatibility = '1.8'
+}
+
+minecraft {
+    version = "1.12.2-14.23.5.2847"
+    runDir = "run"
+    coreMod = 'me.dev.thighware.dev.mixin.MixinLoader'
+    mappings = "stable_39"
+}
+
+repositories {
+    maven {
+        name = 'spongepowered-repo'
+        url = 'https://repo.spongepowered.org/maven/'
+    }
+
+    maven {
+        name = "jitpack.io"
+        url = "https://jitpack.io"
+    }
+    mavenCentral()
+}
+
+dependencies {
+    compile("org.spongepowered:mixin:0.7.4-SNAPSHOT") {
+        exclude module: 'guava'
+        exclude module: 'gson'
+    }
+
+    compile group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
+    compile 'org.slick2d:slick2d-core:1.0.2'
+    compile 'club.minnced:java-discord-rpc:2.0.2'
+}
+dependencies {
+    implementation 'com.github.bush-did-711:eventbus:1.0.2'
+}
+
+shadowJar {
+    dependencies {
+        include(dependency('org.spongepowered:mixin'))
+    }
+
+    manifest {
+        attributes(
+                "Manifest-Version": "1.0",
+                "FMLCorePluginContainsFMLMod": 'true',
+                'tweakClass': 'org.spongepowered.asm.launch.MixinTweaker',
+                "ForceLoadAsMod": 'true',
+                "FMLCorePlugin": 'me.dev.thighware.api.mixin.MixinLoader'
+        )
+    }
+    classifier = 'release'
+}
+
+reobf {
+    shadowJar {
+        mappingType = 'SEARGE'
+        classpath = sourceSets.main.compileClasspath
+    }
+}
+
+processResources {
+    // this will ensure that this task is redone when the versions change.
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
+
+    // replace stuff in mcmod.info, nothing else
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+
+        // replace version and mcversion
+        expand 'version':project.version, 'mcversion':project.minecraft.version
+    }
+
+    // copy everything else except the mcmod.info
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+    }
+}
+
+build.dependsOn(shadowJar)

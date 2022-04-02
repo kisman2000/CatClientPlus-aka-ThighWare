@@ -1,0 +1,9 @@
+{
+  "required": true,
+  "compatibilityLevel": "JAVA_8",
+  "package": "me.dev.thighware.api.mixin.mixins",
+  "refmap": "mixins.catclientplus.refmap.json",
+  "mixins": [
+    "accessors.InnerMinecraft"
+  ]
+}

@@ -1,0 +1,16 @@
+[
+{
+  "modid": "thighware",
+  "name": "CatClient+",
+  "description": "based pvp mod by dvarfoo and bigj and me v1_2",
+  "version": "b1",
+  "mcversion": "1.12.2",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Dvarfoo, (MASSIVE)JMuffin"],
+  "credits": "BigJ because he wrote liek most of the codee",
+  "logoFile": "catclientplus.png",
+  "screenshots": [],
+  "dependencies": []
+}
+]

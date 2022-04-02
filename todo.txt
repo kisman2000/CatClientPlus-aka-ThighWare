@@ -1,0 +1,10 @@
+Todolist i guess 
+v1_2 (not tired kinda)
+add a config system
+make the autocrystal not multiplace
+more combat modules
+x-ray
+make mixins work (done)
+more esp stuff
+make a client loader (maybe not loader but i might make installer with shitty obf and if u don't have the hwid it kicks you out)
+penis esp - Brotherismad
